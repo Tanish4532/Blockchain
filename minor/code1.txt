@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>                                 // for string handling
+#include<time.h>                                   //for timestamp
+#include<openssl/crypto.h>                         //for hashing
+#include<openssl/sha.h>                            //for value of SHA256_DIGEST_LENGTH
+#include<unistd.h>                                //for sleep function
+#include<pthread.h>                               //for multithreading
+
+struct block{
+unsigned char prevHash[SHA256_DIGEST_LENGTH];
+int timestamp;
+int blockheight;
+int blockData[150];
+struct block *link;
+};
+
+struct block *head=NULL;           //pointer to first block
+int height=0;                      //for height of block
+char temp[150];                    // for storing temporary data
+ 
+void takeInput();                  //prototype function for taking input
+void printMenu();                  //prototype function for printing menu
+void addBlock();                   //prototype function for adding block 
+void printAllBlocks();             //prototype function for printing all blocks
+unsigned char* toString(struct block);
+void *takinginputs(void *value);
+void *blockchaincreation(void *value);
+
+int main(){
+pthread_t th1,th2;                   //created two threads
+printf("Command Menu:\n");
+printf("add:add a new block\n");
+printf("print:print all blocks\n");
+printf("\n Blockchain started!!!\n");
+
+//taking input in thread 1(th1)
+pthread_create(&th1,NULL,takinginputs,NULL);
+
+while(1){
+//creating blocks in thread 2(th2)
+pthread_create(&th2,NULL,blockchaincreation,NULL);
+pthread_join(th2,NULL);
+}
+pthread_join(th1,NULL);
+return 0;
+}
+
+
+
