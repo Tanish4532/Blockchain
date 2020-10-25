@@ -130,5 +130,11 @@ void takeInput(){
       curr = curr->link;
    }
  }
-
+ //Printing Menu
+ void printMenu(){
+    printf("\nCommand Menu: \n");
+    printf("add : add a new block \n");
+    printf("print : print all blocks\n");
+    printf("menu : view all commands\n");
+ }
 
