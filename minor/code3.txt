@@ -107,7 +107,20 @@ void takeInput(){
  temp[0] = '\0';
  SHA256(toString(*currentBlock), sizeof(*currentBlock), newBlock->prevHash);
  }
-
+ unsigned char* toString(struct block b){
+ unsigned char *str = malloc(sizeof(unsigned char)*sizeof(b));
+ memcpy(str, &b, sizeof(b));
+ return str;
+ }
+ //Printing contents of one block
+ void printBlock(struct block *b){
+ printf("%p\t",b);
+ printf("\n[\n PrevHash: ");
+ printf("\nTimestamp: %d", b->timeStamp);
+ printf("\nHeight: %d", b->blockHeight);
+ printf("\n%s]\t", b->blockData);
+ printf("%p\n\n", b->link);
+ }
 
 
 
