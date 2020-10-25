@@ -84,7 +84,29 @@ void takeInput(){
     strcat(info1, info2);
     strcat(temp, info1);
 }
-
+ // adding data to new block
+ void addBlock(){
+    if(head == NULL){
+    head=malloc(sizeof(struct block));
+    SHA256("", sizeof(""), head->prevHash);
+    strcat(head->blockData, temp);
+    head->timestamp = (int)time(NULL);
+    head->blockHeight = heaight;
+    temp[0] = '\0';
+    return;
+ }
+ struct block *currentBlock = head;
+ while(currentBlock->link){
+    currentBlock = currentBlock->link;
+ }
+ struct block *newBlock = malloc(sizeof(struct block));
+ currentBlock->link = newBlock;
+ strcat(newBlock->blockData, temp);
+ newBlock->timestamp = (int)time(NULL);
+ newBlock->blockHeight = height;
+ temp[0] = '\0';
+ SHA256(toString(*currentBlock), sizeof(*currentBlock), newBlock->prevHash);
+ }
 
 
 
