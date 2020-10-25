@@ -99,28 +99,36 @@ void takeInput(){
  while(currentBlock->link){
     currentBlock = currentBlock->link;
  }
- struct block *newBlock = malloc(sizeof(struct block));
- currentBlock->link = newBlock;
- strcat(newBlock->blockData, temp);
- newBlock->timestamp = (int)time(NULL);
- newBlock->blockHeight = height;
- temp[0] = '\0';
- SHA256(toString(*currentBlock), sizeof(*currentBlock), newBlock->prevHash);
+    struct block *newBlock = malloc(sizeof(struct block));
+    currentBlock->link = newBlock;
+    strcat(newBlock->blockData, temp);
+    newBlock->timestamp = (int)time(NULL);
+    newBlock->blockHeight = height;
+    temp[0] = '\0';
+    SHA256(toString(*currentBlock), sizeof(*currentBlock), newBlock->prevHash);
  }
  unsigned char* toString(struct block b){
- unsigned char *str = malloc(sizeof(unsigned char)*sizeof(b));
- memcpy(str, &b, sizeof(b));
- return str;
+    unsigned char *str = malloc(sizeof(unsigned char)*sizeof(b));
+    memcpy(str, &b, sizeof(b));
+    return str;
  }
  //Printing contents of one block
  void printBlock(struct block *b){
- printf("%p\t",b);
- printf("\n[\n PrevHash: ");
- printf("\nTimestamp: %d", b->timeStamp);
- printf("\nHeight: %d", b->blockHeight);
- printf("\n%s]\t", b->blockData);
- printf("%p\n\n", b->link);
+    printf("%p\t",b);
+    printf("\n[\n PrevHash: ");
+    printf("\nTimestamp: %d", b->timeStamp);
+    printf("\nHeight: %d", b->blockHeight);
+    printf("\n%s]\t", b->blockData);
+    printf("%p\n\n", b->link);
  }
-
+ // Printing contents of all the blocks
+ void printAllBlocks(){
+   struct block *curr = head;
+   int count = 0;
+   while(curr){
+      printBlock(curr);
+      curr = curr->link;
+   }
+ }
 
 
